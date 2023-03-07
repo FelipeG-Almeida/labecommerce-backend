@@ -1,36 +1,20 @@
-import { users, products, purchases } from './database';
+import {
+    createUser,
+    getAllUsers,
+    createProduct,
+    getAllProducts,
+    getProductById,
+    queryProductsByName,
+    createPurchase,
+    getAllPurchasesFromUserId,
+} from './database';
+import { CATEGORIA } from './types';
 
-users.map((user) =>
-    console.log(
-        'ID:',
-        user.id,
-        '- Email:',
-        user.email,
-        '- Senha: ',
-        user.password
-    )
-);
-products.map((product) =>
-    console.log(
-        'ID:',
-        product.id,
-        '- Nome:',
-        product.name,
-        '- Preço: ',
-        product.price,
-        '- Categoria: ',
-        product.category
-    )
-);
-purchases.map((purchase) =>
-    console.log(
-        'ID Usuário:',
-        purchase.userId,
-        '- ID Produto:',
-        purchase.productID,
-        '- Quantidade: ',
-        purchase.quantity,
-        '- Total:',
-        purchase.totalPrice
-    )
-);
+createUser('u003', 'beltrano@email.com', 'beltrano99');
+getAllUsers();
+createProduct('p004', 'Monitor HD', 800, CATEGORIA.MONITORES);
+getAllProducts();
+getProductById('1');
+queryProductsByName('Monitor');
+createPurchase('u003', 'p004', 2, 1600);
+getAllPurchasesFromUserId('u003');

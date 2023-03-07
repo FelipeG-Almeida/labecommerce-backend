@@ -1,7 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = require("./database");
-database_1.users.map((user) => console.log('ID:', user.id, '- Email:', user.email, '- Senha: ', user.password));
-database_1.products.map((product) => console.log('ID:', product.id, '- Nome:', product.name, '- Preço: ', product.price, "- Categoria: ", product.category));
-database_1.purchases.map((purchase) => console.log('ID Usuário:', purchase.userId, '- ID Produto:', purchase.productID, '- Quantidade: ', purchase.quantity, '- Total:', purchase.totalPrice));
+const types_1 = require("./types");
+(0, database_1.createUser)('u003', 'beltrano@email.com', 'beltrano99');
+(0, database_1.getAllUsers)();
+(0, database_1.createProduct)('p004', 'Monitor HD', 800, types_1.CATEGORIA.MONITORES);
+(0, database_1.getAllProducts)();
+(0, database_1.getProductById)('1');
+(0, database_1.queryProductsByName)('Monitor');
+(0, database_1.createPurchase)('u003', 'p004', 2, 1600);
+(0, database_1.getAllPurchasesFromUserId)('u003');
 //# sourceMappingURL=index.js.map

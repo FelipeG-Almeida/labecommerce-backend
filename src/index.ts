@@ -1,6 +1,6 @@
 import { products, users, purchases } from './database';
 import express, { Request, Response } from 'express';
-import { CATEGORIA, Tuser } from './types';
+import { CATEGORIA, Tproduct, Tuser } from './types';
 import cors from 'cors';
 
 const app = express();
@@ -56,4 +56,79 @@ app.post('/purchaces', (req: Request, res: Response) => {
     purchases.push(newPurchace);
     res.status(201).send('Cadastro realizada com sucesso');
     console.table(purchases);
+});
+
+app.get('/products/:id', (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    const product = products.find((item) => item.id === id);
+    res.status(200).send(product);
+});
+
+app.get('/users/:id/purchases', (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    const purchase = purchases.find((item) => item.userId === id);
+    res.status(200).send(purchase);
+});
+
+app.delete('/users/:id', (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    const index: number = users.findIndex((user) => user.id === id);
+    let message: string;
+    console.log('Antes:', users);
+    if (index >= 0) {
+        users.splice(index, 1);
+        message = 'User apagado com sucesso';
+    } else {
+        message = 'User não encontrado';
+    }
+    console.log('Depois:', users);
+    res.status(200).send(message);
+});
+
+app.delete('/products/:id', (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    const index: number = products.findIndex((product) => product.id === id);
+    let message: string;
+    console.log('Antes:', products);
+    if (index >= 0) {
+        products.splice(index, 1);
+        message = 'Product apagado com sucesso';
+    } else {
+        message = 'Product não encontrado';
+    }
+    console.log('Depois:', products);
+    res.status(200).send(message);
+});
+
+app.put('/users/:id', (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    const newEmail: string | undefined = req.body.email;
+    const newPassword: string | undefined = req.body.password;
+    const user: Tuser | undefined = users.find((user) => user.id === id);
+    console.log('Antes:', user);
+
+    if (user) {
+        user.email = newEmail || user.email;
+        user.password = newPassword || user.password;
+    }
+    console.log('Depois:', user);
+    res.status(200).send('Cadastro atualizado com sucesso');
+});
+
+app.put('/products/:id', (req: Request, res: Response) => {
+    const id: string = req.params.id;
+    const newName: string | undefined = req.body.name;
+    const newPrice: number | undefined = req.body.price;
+    const newCategory: CATEGORIA | undefined = req.body.category;
+    const product: Tproduct | undefined = products.find(
+        (product) => product.id === id
+    );
+    console.log('Antes:', product);
+    if (product) {
+        product.name = newName || product.name;
+        product.category = newCategory || product.category;
+        product.price = newPrice || product.price;
+    }
+    console.log('Depois:', product);
+    res.status(200).send('Produto atualizado com sucesso');
 });

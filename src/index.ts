@@ -262,6 +262,14 @@ app.put('/users/:id', (req: Request, res: Response) => {
         const newEmail = req.body.email;
         const newPassword = req.body.password;
         const user = users.find((user) => user.id === id);
+        console.log('Antes:', user);
+        if (user) {
+            user.email = newEmail || user.email;
+            user.password = newPassword || user.password;
+        } else {
+            res.status(400);
+            throw new Error("O 'id' do usuário informado não existe");
+        }
         if (typeof id != 'string') {
             res.status(400);
             res.send("O campo 'id' deve ser uma string");
@@ -273,14 +281,6 @@ app.put('/users/:id', (req: Request, res: Response) => {
         if (typeof newPassword != 'string') {
             res.status(400);
             res.send("O campo 'Password' deve ser uma string");
-        }
-        console.log('Antes:', user);
-        if (user) {
-            user.email = newEmail || user.email;
-            user.password = newPassword || user.password;
-        } else {
-            res.status(400);
-            throw new Error("O 'id' do usuário informado não existe");
         }
         console.log('Depois:', user);
         res.status(200).send('Cadastro atualizado com sucesso');
@@ -299,6 +299,15 @@ app.put('/products/:id', (req: Request, res: Response) => {
         const product: Tproduct | undefined = products.find(
             (product) => product.id === id
         );
+        console.log('Antes:', product);
+        if (product) {
+            product.name = newName || product.name;
+            product.category = newCategory || product.category;
+            product.price = newPrice || product.price;
+        } else {
+            res.status(400);
+            throw new Error("O 'id' do produto informado não existe");
+        }
         if (typeof id != 'string') {
             res.status(400);
             res.send("O campo 'id' deve ser uma string");
@@ -311,16 +320,21 @@ app.put('/products/:id', (req: Request, res: Response) => {
             res.status(400);
             res.send("O campo 'Price' deve ser um número");
         }
-        console.log('Antes:', product);
-        if (product) {
-            product.name = newName || product.name;
-            product.category = newCategory || product.category;
-            product.price = newPrice || product.price;
-        } else {
+        if (
+            newCategory != CATEGORIA.JOGOS &&
+            newCategory != CATEGORIA.MONITORES &&
+            newCategory != CATEGORIA.PERIFERICOS &&
+            newCategory != CATEGORIA.PLACAS_DE_VIDEO
+        ) {
             res.status(400);
-            throw new Error("O 'id' do produto informado não existe");
+            throw new Error(
+                "O campo 'Categoria' deve ser 'Monitores', 'Jogos', 'Periféricos' ou 'Placas de Vídeo'"
+            );
         }
         console.log('Depois:', product);
         res.status(200).send('Produto atualizado com sucesso');
-    } catch (error) {}
+    } catch (error: any) {
+        console.log(error.message);
+        res.send(error.message);
+    }
 });

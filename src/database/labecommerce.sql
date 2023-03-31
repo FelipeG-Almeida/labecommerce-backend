@@ -5,8 +5,6 @@ CREATE TABLE
         password TEXT NOT NULL
     );
 
-SELECT * FROM users;
-
 INSERT INTO users
 VALUES (
         "1",
@@ -29,8 +27,6 @@ CREATE TABLE
         price REAL NOT NULL,
         category TEXT NOT NULL
     );
-
-SELECT * FROM products;
 
 INSERT INTO products
 VALUES (
@@ -59,3 +55,40 @@ VALUES (
         150.50,
         "Jogos"
     );
+
+SELECT * FROM products
+WHERE name LIKE '%a%';
+
+INSERT INTO users
+VALUES("4", "viktok@pitolver.com", "thegloriusevolution");
+
+INSERT INTO products
+VALUES("6", "League of Legends", 0, "Jogo");
+
+SELECT * FROM products
+WHERE id = "6";
+
+DELETE FROM users
+WHERE id = "4";
+
+DELETE FROM products
+WHERE id = "6";
+
+UPDATE products
+SET price = 700
+WHERE id = "4";
+
+UPDATE users
+SET password = "veryevil"
+WHERE id = "2";
+
+SELECT * FROM users
+ORDER BY email ASC;
+
+SELECT * FROM products
+ORDER BY price ASC
+LIMIT 20 OFFSET 0;
+
+SELECT * FROM products
+WHERE price > 100 AND price < 800
+ORDER BY price ASC;

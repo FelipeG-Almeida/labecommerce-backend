@@ -1,5 +1,6 @@
 export type Tuser = {
     id: string;
+    name: string;
     email: string;
     password: string;
 };
@@ -8,7 +9,7 @@ export type Tproduct = {
     id: string;
     name: string;
     price: number;
-    category: CATEGORIA;
+    category: DESCRIPTION;
 };
 
 export type Tpurchase = {
@@ -18,7 +19,7 @@ export type Tpurchase = {
     totalPrice: number;
 };
 
-export enum CATEGORIA {
+export enum DESCRIPTION {
     MONITORES = 'Monitores',
     PLACAS_DE_VIDEO = 'Placas de Vídeo',
     PERIFERICOS = 'Periféricos',

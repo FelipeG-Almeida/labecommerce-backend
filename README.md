@@ -13,6 +13,21 @@ O backend do LabEcommerce possui as seguintes funcionalidades:
 - CRUD (Create, Read, Update, Delete) de produtos, usuários e pedidos
 - Validação dos endpoints
 
+## Endpoints
+
+A API possui os seguintes endpoints disponíveis:
+
+- **GET /users**: Retorna a lista de todos usuários cadastrados.
+- **POST /users**: Cadastra um novo usuário.
+
+- **POST /products**: Cadastra um novo produto.
+- **GET /products**: Retorna a lista de todos os produtos cadastrados.
+- **PUT /products/:id**: Atualiza um produto específico com base no seu Id.
+
+- **POST /purchases**: Cadastra um novo pedido.
+- **DELETE /purchases/:id**: Remove um pedido específico com base no seu Id.
+- **GET /purchases/:id**: Retorna um pedido específico com base no seu Id.
+
 ## Configuração do Projeto
 
 Para configurar o projeto em sua máquina local, siga os passos abaixo:

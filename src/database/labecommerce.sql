@@ -1,21 +1,32 @@
 -- Active: 1680041740726@@127.0.0.1@3306
+
 CREATE TABLE
     users (
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
         name TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
-        createad_at DEFAULT (DATE ('now'))
+        createad_at DEFAULT (DATE ('now', 'localtime'))
     );
-
-DELETE FROM users WHERE id = "5";
 
 INSERT INTO
     users (id, name, email, password)
-VALUES
-    ("1", "Shyvana", "shyvana@demacia.com.br", "dragonsareawesome"),
-    ("2", "Veigar", "veigar@gmail.com", "evil"),
-    ("3", "Gálio", "galio@demacia.com.br", "statue");
+VALUES (
+        "1",
+        "Shyvana",
+        "shyvana@demacia.com.br",
+        "dragonsareawesome"
+    ), (
+        "2",
+        "Veigar",
+        "veigar@gmail.com",
+        "evil"
+    ), (
+        "3",
+        "Gálio",
+        "galio@demacia.com.br",
+        "statue"
+    );
 
 CREATE TABLE
     products (
@@ -27,90 +38,58 @@ CREATE TABLE
     );
 
 INSERT INTO
-    products (id, name, price, description)
-VALUES
-    ("1", "RX 6600", 2000.00, "Placas de Vídeo"),
-    ("2", "Teclado Mecânico Logitech", 200.50,"Periféricos"),
-    ("3", "Monitor Gamer 120hz", 1965.75, "Monitores"),
-    ("4", "Soundbar JBL", 750.00, "Periféricos"),
-    ("5", "Red Dead Remdemption 2", 150.50, "Jogos");
-
-SELECT
-    *
-FROM
-    products
-WHERE
-    name LIKE '%a%';
-
-UPDATE products
-SET
-    price = 700
-WHERE
-    id = "4";
-
-UPDATE users
-SET
-    password = "veryevil"
-WHERE
-    id = "2";
-
-SELECT
-    *
-FROM
-    users
-ORDER BY
-    email ASC;
-
-SELECT
-    *
-FROM
-    products
-ORDER BY
-    price ASC
-LIMIT
-    4
-OFFSET
-    0;
-
-SELECT
-    *
-FROM
-    products
-WHERE
-    price > 100
-    AND price < 800
-ORDER BY
-    price ASC;
+    products (
+        id,
+        name,
+        price,
+        description,
+        image_url
+    )
+VALUES (
+        "1",
+        "RX 6600",
+        2000.00,
+        "Placa de video Top",
+        "https://picsum.photos/seed/rx6600/200/300"
+    ), (
+        "2",
+        "Teclado Mecânico Logitech",
+        200.50,
+        "Teclado Gamer de alto desempenho",
+        "https://picsum.photos/seed/teclado/200/300"
+    ), (
+        "3",
+        "Monitor Gamer 120hz",
+        1965.75,
+        "Monitor pra não deixar passar aquele headshot",
+        "https://picsum.photos/seed/monitor/200/300"
+    ), (
+        "4",
+        "Soundbar JBL",
+        750.00,
+        "Soundbar pra ouvir o grave do grave",
+        ""
+    ), (
+        "5",
+        "Red Dead Remdemption 2",
+        150.50,
+        "Jogão 10/10, muito bom",
+        ""
+    );
 
 CREATE TABLE
     purchases (
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
-        buyer_id TEXT NOT NULL,
+        buyer TEXT NOT NULL,
         total_price REAL NOT NULL,
         created_at TEXT DEFAULT(DATE('now', 'localtime')),
-        paid INTEGER NOT NULL,
-        FOREIGN KEY (buyer_id) REFERENCES users (id)
+        paid INTEGER NOT NULL DEFAULT(0),
+        FOREIGN KEY (buyer) REFERENCES users (id)
     );
 
 INSERT INTO
-    purchases (id, buyer_id, total_price, paid)
-VALUES
-    ('1', '1', 5000, 0),
-    ('2', '1', 2000, 0),
-    ('3', '2', 750, 0),
-    ('4', '3', 500, 0);
-
-UPDATE purchases
-SET
-    total_price = 1950
-WHERE
-    id = '2';
-
-SELECT
-    *
-FROM
-    users
-    INNER JOIN purchases ON purchases.buyer_id = users.id;
+    purchases (id, buyer, total_price, paid)
+VALUES ('2', '3', 200.5, 0);
 
 CREATE TABLE
     purchases_products (
@@ -121,22 +100,4 @@ CREATE TABLE
         FOREIGN KEY (product_id) REFERENCES products (id)
     );
 
-INSERT INTO
-    purchases_products
-VALUES
-    ('1', '1', 2),
-    ('2', '2', 1),
-    ('3', '3', 2);
-
-SELECT
-    purchase_id as idCompra,
-    product_id as idProduto,
-    users.name as comprador,
-    products.name as nomeProduto,
-    quantity as quantidade,
-    purchases.total_price as preco
-FROM
-    purchases_products
-    INNER JOIN purchases ON purchase_id = purchases.id
-    INNER JOIN products ON product_id = products.id
-    INNER JOIN users ON purchases.buyer_id = users.id;
+INSERT INTO purchases_products VALUES ('2', '2', 1);
